@@ -15,6 +15,5 @@ func InitConfig() {
 		fmt.Println("File not found\tSet up default settings")
 		return
 	}
-	fmt.Println(conf.ApiKeys.TelegramKey)
 	ResultConfig = conf
 }

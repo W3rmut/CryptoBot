@@ -32,7 +32,6 @@ func run() error {
 		}
 
 		for _, update := range resp {
-			fmt.Println(update)
 			switch update.Message.Text {
 			case "XMR":
 				actions.SelectXMR(botUrl+"sendMessage", update.Message.Chat.ChatID)

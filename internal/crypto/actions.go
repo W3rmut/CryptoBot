@@ -10,7 +10,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -24,7 +23,6 @@ const coinGeckoURL = "https://api.coingecko.com/api/v3/simple/price?ids=monero&v
 func GetBTC() (float64, error) {
 	var priceBTC data.BittrexResponseCourse
 	url := bittrexApiURL + "USD-BTC"
-	fmt.Println(url)
 	req, err := http.Get(url)
 	if err != nil {
 		return 0, err
@@ -33,14 +31,12 @@ func GetBTC() (float64, error) {
 	if err != nil {
 		return 0, err
 	}
-	fmt.Println(priceBTC)
 	return priceBTC.Result.Last, nil
 }
 
 func GetXMR() (float64, error) {
 	var priceXMR data.CoinGeckoResponse
 	url := coinGeckoURL
-	fmt.Println(url)
 	req, err := http.Get(url)
 	if err != nil {
 		return 0, err
@@ -49,14 +45,12 @@ func GetXMR() (float64, error) {
 	if err != nil {
 		return 0, err
 	}
-	fmt.Println(priceXMR)
 	return priceXMR.Monero.Usd, nil
 }
 
 func GetETH() (float64, error) {
 	var priceBTC data.BittrexResponseCourse
 	url := bittrexApiURL + "USD-ETH"
-	fmt.Println(url)
 	req, err := http.Get(url)
 	if err != nil {
 		return 0, err
@@ -65,7 +59,6 @@ func GetETH() (float64, error) {
 	if err != nil {
 		return 0, err
 	}
-	fmt.Println(priceBTC)
 	return priceBTC.Result.Last, nil
 }
 
@@ -77,7 +70,6 @@ func GetRubCourse() (float64, error) {
 	dateParam := nowData.Format("02/01/2006")
 
 	url = url + fmt.Sprintf("date_req1=%s&date_req2=%s&VAL_NM_RQ=%s", dateParam, dateParam, USDCode)
-	fmt.Println("test:", url)
 	req, err := http.Get(url)
 	if err != nil {
 		return 0, err
@@ -86,7 +78,6 @@ func GetRubCourse() (float64, error) {
 	dataRead, err := ioutil.ReadAll(req.Body)
 	reader := bytes.NewReader(dataRead)
 	decoder := xml.NewDecoder(reader)
-	fmt.Println(string(dataRead))
 	decoder.CharsetReader = func(charset string, input io.Reader) (io.Reader, error) {
 		return charmap.Windows1251.NewDecoder().Reader(input), nil
 	}
@@ -94,10 +85,7 @@ func GetRubCourse() (float64, error) {
 	if err != nil {
 		return 0, err
 	}
-	fmt.Println("test:", courseData)
-	fmt.Println("type: ", reflect.TypeOf(courseData.Record.Value))
 	courseData.Record.Value = strings.Replace(courseData.Record.Value, ",", ".", -1)
 	result, err := strconv.ParseFloat(courseData.Record.Value, 64)
-	fmt.Println(result)
 	return result, nil
 }

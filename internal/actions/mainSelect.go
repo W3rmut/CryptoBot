@@ -45,7 +45,6 @@ func SelectXMR(botURL string, chatID int) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(buf)
 	_, err = http.Post(botURL, "application/json", bytes.NewBuffer(buf))
 
 	return nil
