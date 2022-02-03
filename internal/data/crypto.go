@@ -9,3 +9,9 @@ type Result struct {
 	Ask  float64 `json:"Ask"`
 	Last float64 `json:"Last"`
 }
+
+type CoinGeckoResponse struct {
+	Monero struct {
+		Usd float64 `json:"usd"`
+	} `json:"monero"`
+}

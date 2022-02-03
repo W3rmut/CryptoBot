@@ -19,6 +19,7 @@ import (
 const bittrexApiURL = "https://api.bittrex.com/api/v1.1/public/getticker?market="
 const cbrXMLApiURL = "http://www.cbr.ru/scripts/XML_dynamic.asp?"
 const USDCode = "R01235"
+const coinGeckoURL = "https://api.coingecko.com/api/v3/simple/price?ids=monero&vs_currencies=usd"
 
 func GetBTC() (float64, error) {
 	var priceBTC data.BittrexResponseCourse
@@ -34,6 +35,22 @@ func GetBTC() (float64, error) {
 	}
 	fmt.Println(priceBTC)
 	return priceBTC.Result.Last, nil
+}
+
+func GetXMR() (float64, error) {
+	var priceXMR data.CoinGeckoResponse
+	url := coinGeckoURL
+	fmt.Println(url)
+	req, err := http.Get(url)
+	if err != nil {
+		return 0, err
+	}
+	err = json.NewDecoder(req.Body).Decode(&priceXMR)
+	if err != nil {
+		return 0, err
+	}
+	fmt.Println(priceXMR)
+	return priceXMR.Monero.Usd, nil
 }
 
 func GetETH() (float64, error) {

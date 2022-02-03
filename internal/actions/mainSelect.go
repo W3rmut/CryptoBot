@@ -32,7 +32,15 @@ func SelectBTC(botURL string, chatID int) error {
 
 func SelectXMR(botURL string, chatID int) error {
 	messageData := data.MessageRequest{ChatID: chatID}
-
+	priceXMR, err := crypto.GetXMR()
+	if err != nil {
+		return err
+	}
+	rubCourse, err := crypto.GetRubCourse()
+	if err != nil {
+		fmt.Println("Error getting course:", err)
+	}
+	messageData.Text = fmt.Sprintf("XMR Price\n \t * USD: %f \n \t * RUB %f", priceXMR, priceXMR*rubCourse)
 	buf, err := json.Marshal(messageData)
 	if err != nil {
 		return err
