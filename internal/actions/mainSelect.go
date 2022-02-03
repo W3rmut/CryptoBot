@@ -17,7 +17,11 @@ func SelectBTC(botURL string, chatID int) error {
 	if err != nil {
 		return err
 	}
-	messageData.Text = fmt.Sprintf("BTC Price\n \t * USD: %f \n \t * RUB %f", priceBTC, priceBTC*72.82)
+	rubCourse, err := crypto.GetRubCourse()
+	if err != nil {
+		fmt.Println("Error getting course:", err)
+	}
+	messageData.Text = fmt.Sprintf("BTC Price\n \t * USD: %f \n \t * RUB %f", priceBTC, priceBTC*rubCourse)
 	buf, err := json.Marshal(messageData)
 	if err != nil {
 		return err
@@ -45,7 +49,11 @@ func SelectETH(botURL string, chatID int) error {
 	if err != nil {
 		return err
 	}
-	messageData.Text = fmt.Sprintf("ETH Price\n \t * USD: %f \n \t * RUB %f", priceBTC, priceBTC*72.82)
+	rubCourse, err := crypto.GetRubCourse()
+	if err != nil {
+		fmt.Println("Error getting course")
+	}
+	messageData.Text = fmt.Sprintf("ETH Price\n \t * USD: %f \n \t * RUB %f", priceBTC, priceBTC*rubCourse)
 	buf, err := json.Marshal(messageData)
 
 	if err != nil {
