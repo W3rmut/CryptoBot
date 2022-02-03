@@ -31,7 +31,7 @@ api-keys.TelegramKey - здесь указывается api ключ для tel
 ### Сборка и запуск
 #### Сборка:
 ``` bash
-go build cmd/bot/main.go -o crypto_bot 
+go build -o crypto_bot cmd/bot/main.go 
 ```
 #### Запуск:
 ``` bash
